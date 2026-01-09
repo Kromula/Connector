@@ -1,13 +1,15 @@
 @echo off
 REM Quick setup script to enable Connector in a project
 
+setlocal enabledelayedexpansion
+
 echo.
 echo ========================================
 echo  ServiceNow Connector - Project Setup
 echo ========================================
 echo.
 
-if "%1"=="" (
+if "%~1"=="" (
     echo Usage: setup-project.bat "C:\path\to\your\project"
     echo.
     echo Example: setup-project.bat "E:\Claude Dev\ux-analyser"
@@ -15,7 +17,9 @@ if "%1"=="" (
     exit /b 1
 )
 
-set PROJECT_DIR=%~1
+set "PROJECT_DIR=%~1"
+set "SCRIPT_DIR=%~dp0"
+set "TEMPLATE_FILE=%SCRIPT_DIR%templates\claude-settings.json"
 
 if not exist "%PROJECT_DIR%" (
     echo [ERROR] Project directory does not exist: %PROJECT_DIR%
@@ -33,7 +37,7 @@ if not exist "%PROJECT_DIR%\.claude" (
 
 REM Copy settings template
 echo [INFO] Copying MCP settings...
-copy /Y "E:\Claude Dev\servicenow-mcp\templates\claude-settings.json" "%PROJECT_DIR%\.claude\settings.json" >nul
+copy /Y "%TEMPLATE_FILE%" "%PROJECT_DIR%\.claude\settings.json" >nul
 
 if %ERRORLEVEL% EQU 0 (
     echo [OK] Settings copied successfully!
@@ -48,7 +52,10 @@ if %ERRORLEVEL% EQU 0 (
     echo.
 ) else (
     echo [ERROR] Failed to copy settings
+    echo [ERROR] Template file: %TEMPLATE_FILE%
+    echo [ERROR] Destination: %PROJECT_DIR%\.claude\settings.json
     exit /b 1
 )
 
+endlocal
 exit /b 0
