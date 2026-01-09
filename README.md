@@ -1,4 +1,9 @@
-# ServiceNow MCP Server
+# ServiceNow MCP Server (Connector)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![GitHub issues](https://img.shields.io/github/issues/Kromula/Connector)](https://github.com/Kromula/Connector/issues)
+[![GitHub stars](https://img.shields.io/github/stars/Kromula/Connector)](https://github.com/Kromula/Connector/stargazers)
 
 A Model Context Protocol (MCP) server that provides authenticated access to ServiceNow instances with MFA support and session caching.
 
@@ -296,10 +301,41 @@ black servicenow_mcp/
 mypy servicenow_mcp/
 ```
 
-## License
-
-MIT License - see LICENSE file for details
-
 ## Contributing
 
-Contributions welcome! Please submit issues and pull requests.
+We welcome contributions! Please see our [Contributing Guidelines](.github/CONTRIBUTING.md) for details.
+
+### How to Contribute
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Reporting Issues
+
+Found a bug or have a feature request? Please create an issue:
+- [Report a Bug](https://github.com/Kromula/Connector/issues/new?template=bug_report.md)
+- [Request a Feature](https://github.com/Kromula/Connector/issues/new?template=feature_request.md)
+- [Ask a Question](https://github.com/Kromula/Connector/issues/new?template=question.md)
+
+## Repository
+
+GitHub: [https://github.com/Kromula/Connector](https://github.com/Kromula/Connector)
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details
+
+## Acknowledgments
+
+- Built with [Model Context Protocol](https://modelcontextprotocol.io/)
+- Powered by [ServiceNow REST API](https://developer.servicenow.com/dev.do)
+- Created with Claude Code
+
+## Support
+
+- Documentation: [README.md](README.md) | [QUICKSTART.md](QUICKSTART.md)
+- Issues: [GitHub Issues](https://github.com/Kromula/Connector/issues)
+- Security: [Security Policy](.github/SECURITY.md)
