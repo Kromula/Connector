@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "servicenow": {
+      "command": "python",
+      "args": [
+        "-m",
+        "servicenow_mcp.main"
+      ],
+      "cwd": "E:/Claude Dev/servicenow-mcp",
+      "env": {
+        "SERVICENOW_PASSWORD_CUSTOMER1_DEV": "your_password_here",
+        "SERVICENOW_PASSWORD_CUSTOMER1_PROD": "your_password_here"
+      }
+    }
+  }
+}

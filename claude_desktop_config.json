@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "servicenow": {
+      "command": "python",
+      "args": [
+        "-m",
+        "servicenow_mcp.main"
+      ],
+      "cwd": "E:/Claude Dev/servicenow-mcp"
+    }
+  }
+}

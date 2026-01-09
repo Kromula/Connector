@@ -1,0 +1,21 @@
+instances:
+  customer1-dev:
+    url: https://customer1dev.service-now.com
+    username: admin
+    # Password can be set here or via environment variable SERVICENOW_PASSWORD_CUSTOMER1_DEV
+    # password: your_password_here
+
+  customer1-prod:
+    url: https://customer1.service-now.com
+    username: admin
+    # password: your_password_here
+
+  customer2-dev:
+    url: https://customer2dev.service-now.com
+    username: api_user
+    # password: your_password_here
+
+# Session settings
+session:
+  cache_duration_hours: 8
+  cache_location: cache/sessions.json
