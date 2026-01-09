@@ -1,0 +1,189 @@
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     HOW CONNECTOR WORKS                                  │
+└─────────────────────────────────────────────────────────────────────────┘
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  YOUR PROJECTS                                                            ║
+╠═══════════════════════════════════════════════════════════════════════════╣
+║                                                                           ║
+║  Project: Data Loader              Project: Golf Stats                   ║
+║  ┌─────────────────┐              ┌─────────────────┐                   ║
+║  │ .claude/        │              │ .claude/        │                   ║
+║  │  settings.json  │              │  settings.json  │                   ║
+║  └────────┬────────┘              └────────┬────────┘                   ║
+║           │                                │                             ║
+║           └────────────────┬───────────────┘                             ║
+║                            │                                             ║
+║                            │ Both point to:                              ║
+║                            ▼                                             ║
+║  ┌──────────────────────────────────────────────────────┐               ║
+║  │  "cwd": "E:/Claude Dev/servicenow-mcp"              │               ║
+║  └──────────────────────────────────────────────────────┘               ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+                            │
+                            ▼
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  CONNECTOR (ONE INSTALLATION)                                             ║
+║  Location: E:/Claude Dev/servicenow-mcp/                                 ║
+╠═══════════════════════════════════════════════════════════════════════════╣
+║                                                                           ║
+║  ┌─────────────────────┐  ┌──────────────────┐  ┌───────────────────┐  ║
+║  │ config/             │  │ cache/           │  │ servicenow_mcp/   │  ║
+║  │  instances.yaml ────┼─▶│  sessions.json   │  │  main.py          │  ║
+║  │                     │  │                  │  │  (MCP Server)     │  ║
+║  │  My Instance        │  │  My Instance: ✓  │  └─────────┬─────────┘  ║
+║  │  Handtmann Test     │  │  Handtmann: ✓    │            │            ║
+║  └─────────────────────┘  └──────────────────┘            │            ║
+║                                                            │            ║
+╚════════════════════════════════════════════════════════════╪════════════╝
+                                                             │
+                                                             ▼
+                                                ┌────────────────────────┐
+                                                │   ServiceNow API       │
+                                                │  - My Instance         │
+                                                │  - Handtmann Test      │
+                                                └────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                  WHAT YOU NEED IN EACH PROJECT                           │
+└─────────────────────────────────────────────────────────────────────────┘
+
+Your Project Folder
+├── your_code_files.py
+├── README.md
+└── .claude/                    ← CREATE THIS
+    └── settings.json           ← WITH THIS FILE
+
+Content of settings.json:
+┌─────────────────────────────────────────────────────────────────────┐
+│ {                                                                   │
+│   "mcp": {                                                          │
+│     "servers": {                                                    │
+│       "servicenow": {                                               │
+│         "command": "python",                                        │
+│         "args": ["-m", "servicenow_mcp.main"],                     │
+│         "cwd": "E:/Claude Dev/servicenow-mcp"   ← Points here!     │
+│       }                                                             │
+│     }                                                               │
+│   }                                                                 │
+│ }                                                                   │
+└─────────────────────────────────────────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      THE SETUP PROCESS                                   │
+└─────────────────────────────────────────────────────────────────────────┘
+
+Step 1: Navigate to your project
+   cd "E:/Claude Dev/YourProject"
+
+Step 2: Create .claude directory
+   mkdir .claude
+
+Step 3: Copy the template file
+   copy "E:\Claude Dev\servicenow-mcp\templates\claude-settings.json" ".claude\settings.json"
+
+Step 4: Restart Claude Code
+   (Exit and restart in your project directory)
+
+Step 5: Test it
+   "Get incidents from Handtmann Test"
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      AUTHENTICATION FLOW                                 │
+└─────────────────────────────────────────────────────────────────────────┘
+
+First Time (or when session expires):
+┌──────────────────────────────────────────────────────────────────────┐
+│ 1. Run: python -m servicenow_mcp.cli.sn_connect --instance "name"   │
+│    ↓                                                                 │
+│ 2. Enter credentials (or use from config)                           │
+│    ↓                                                                 │
+│ 3. Approve MFA on phone (if required)                               │
+│    ↓                                                                 │
+│ 4. Session cached for 8 hours in: cache/sessions.json              │
+└──────────────────────────────────────────────────────────────────────┘
+
+Every Time After (within 8 hours):
+┌──────────────────────────────────────────────────────────────────────┐
+│ 1. Start Claude Code in your project                                │
+│    ↓                                                                 │
+│ 2. Connector reads cached session                                   │
+│    ↓                                                                 │
+│ 3. Connects to ServiceNow instantly ✓                               │
+└──────────────────────────────────────────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                  MULTIPLE PROJECTS EXAMPLE                               │
+└─────────────────────────────────────────────────────────────────────────┘
+
+E:/Claude Dev/
+│
+├── servicenow-mcp/                    ← ONE installation
+│   ├── config/instances.yaml          ← Define instances here
+│   ├── cache/sessions.json            ← Shared sessions
+│   └── templates/claude-settings.json ← Template to copy
+│
+├── Data Loader/
+│   ├── .claude/settings.json          ← Copy 1 (points to servicenow-mcp)
+│   └── your_code.py
+│
+├── Golf Stats Tracker/
+│   ├── .claude/settings.json          ← Copy 2 (points to servicenow-mcp)
+│   └── your_code.py
+│
+├── Resolver/
+│   ├── .claude/settings.json          ← Copy 3 (points to servicenow-mcp)
+│   └── your_code.py
+│
+└── ux-analyzer/
+    ├── .env                            ← Has its own connection
+    └── your_code.py                    ← Doesn't need Connector
+
+ALL projects share:
+  ✓ Same Connector installation
+  ✓ Same cached sessions
+  ✓ Same configured instances
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      KEY POINTS TO REMEMBER                              │
+└─────────────────────────────────────────────────────────────────────────┘
+
+1. ✓ Connector is installed ONCE at: E:/Claude Dev/servicenow-mcp
+
+2. ✓ Each project needs ONE file: .claude/settings.json
+
+3. ✓ All settings.json files are IDENTICAL - they all point to the same place
+
+4. ✓ Sessions are SHARED - authenticate once, use everywhere
+
+5. ✓ Instances are CONFIGURED ONCE in: config/instances.yaml
+
+6. ✓ When session expires (8 hours), run: sn-connect --instance "name"
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      TROUBLESHOOTING CHECKLIST                           │
+└─────────────────────────────────────────────────────────────────────────┘
+
+□ Is Connector installed?
+  Test: python -m servicenow_mcp.cli.sn_connect --instance any --list
+
+□ Is there a valid session?
+  Test: python -m servicenow_mcp.cli.sn_connect --instance any --show-cache
+
+□ Does .claude/settings.json exist in your project?
+  Test: cat .claude/settings.json
+
+□ Is the JSON valid?
+  Paste content into: https://jsonlint.com/
+
+□ Did you restart Claude Code after creating settings.json?
+  Exit completely and restart
+
+□ Are you in the right directory?
+  Run: pwd  (should show your project directory)
